@@ -38,7 +38,7 @@ client.on('message', async msg => {
         console.log(`📥 Command from ${msg.from}: ${body}`);
         
         try {
-            const res = await axios.post('http://sahinNR.eu.pythonanywhere.com/whatsapp-webhook', {
+            const res = await axios.post('http://Nazrulmess.eu.pythonanywhere.com/whatsapp-webhook', {
                 sender: msg.from,
                 chat_id: chat.id._serialized,
                 message: body
@@ -76,4 +76,8 @@ client.initialize();
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`🚀 Bridge server running on port ${PORT}`);
+});
+
+app.get('/', (req, res) => {
+  res.send('✅ WhatsApp bot is running!');
 });
