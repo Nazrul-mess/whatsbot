@@ -32,13 +32,14 @@ client.on('message', async msg => {
     
     const chat = await msg.getChat();
     const body = msg.body.trim();
-    
+
+    const senderId = chat.isGroup ? msg.author : msg.from;
     // Handle commands
         console.log(`📥 Command from ${msg.from}: ${body}`);
         
         try {
             const res = await axios.post('http://Nazrulmess.eu.pythonanywhere.com/whatsapp-webhook', {
-                sender: msg.from,
+                sender: sender: senderId,
                 chat_id: chat.id._serialized,
                 message: body
             });
