@@ -34,7 +34,6 @@ client.on('message', async msg => {
     const body = msg.body.trim();
     
     // Handle commands
-    if (body.startsWith('/')) {
         console.log(`📥 Command from ${msg.from}: ${body}`);
         
         try {
@@ -57,7 +56,7 @@ client.on('message', async msg => {
             await chat.sendMessage('❌ Error processing your command. Please try again.');
         }
     }
-});
+);
 
 // Helper function to split long messages
 function splitMessage(text, maxLength = 4096) {
