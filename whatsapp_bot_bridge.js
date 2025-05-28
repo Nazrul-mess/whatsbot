@@ -29,35 +29,34 @@ client.on('ready', () => {
 client.on('message', async msg => {
     // Ignore if message is from status broadcast
     if (msg.from === 'status@broadcast') return;
-    
+
     const chat = await msg.getChat();
     const body = msg.body.trim();
 
     const senderId = chat.isGroup ? msg.author : msg.from;
-    // Handle commands
-        console.log(`📥 Command from ${msg.from}: ${body}`);
-        
-        try {
-            const res = await axios.post('http://Nazrulmess.eu.pythonanywhere.com/whatsapp-webhook', {
-                sender: sender: senderId,
-                chat_id: chat.id._serialized,
-                message: body
-            });
-            
-            if (res.data.reply) {
-                // Split long messages to avoid WhatsApp limits
-                const replyParts = splitMessage(res.data.reply);
-                for (const part of replyParts) {
-                    await chat.sendMessage(part);
-                    await new Promise(resolve => setTimeout(resolve, 1000)); // Delay between messages
-                }
+
+    console.log(`📥 Command from ${senderId}: ${body}`);
+
+    try {
+        const res = await axios.post('http://Nazrulmess.eu.pythonanywhere.com/whatsapp-webhook', {
+            sender: senderId,
+            chat_id: chat.id._serialized,
+            message: body
+        });
+
+        if (res.data.reply) {
+            const replyParts = splitMessage(res.data.reply);
+            for (const part of replyParts) {
+                await chat.sendMessage(part);
+                await new Promise(resolve => setTimeout(resolve, 1000)); // Delay between messages
             }
-        } catch (err) {
-            console.error('Error:', err.message);
-            await chat.sendMessage('❌ Error processing your command. Please try again.');
         }
+    } catch (err) {
+        console.error('Error:', err.message);
+        await chat.sendMessage('❌ Error processing your command. Please try again.');
     }
-);
+});
+
 
 // Helper function to split long messages
 function splitMessage(text, maxLength = 4096) {
