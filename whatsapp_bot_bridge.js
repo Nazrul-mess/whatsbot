@@ -38,7 +38,7 @@ client.on('message', async msg => {
     console.log(`📥 Command from ${senderId}: ${body}`);
 
     try {
-        const res = await axios.post('http://Nazrulmess.eu.pythonanywhere.com/whatsapp-webhook', {
+        const res = await axios.post('https://nazrulmess.eu.pythonanywhere.com//whatsapp-webhook', {
             sender: senderId,
             chat_id: chat.id._serialized,
             message: body
