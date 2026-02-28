@@ -9,7 +9,9 @@ app.use(express.json());
 
 // WhatsApp client setup
 const client = new Client({
-    authStrategy: new LocalAuth(),
+    authStrategy: new LocalAuth({
+        dataPath: '/opt/render/project/src/session'
+    }),
     puppeteer: { 
         headless: true, 
         args: ['--no-sandbox', '--disable-setuid-sandbox'] 
